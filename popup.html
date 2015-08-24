@@ -1,0 +1,17 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title >Pitch Shifter</title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="popup.js"></script>
+
+</head>
+<body ng-controller="mainController">
+<h1>Pitch Shifter</h1>
+<ng-form id="pitchChangeForm">
+    <div><span ng-bind="pitchChangeValue"></span></div>
+    <input type="range" min="-9" max="9" ng-model="pitchChangeValue"/>
+    <button ng-click="shiftPitch()">Submit</button>
+</ng-form>
+</body>
+</html>

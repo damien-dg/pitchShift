@@ -1,0 +1,20 @@
+{
+  "name": "pitchExtension",
+  "version": "0.0.0",
+  "authors": [
+    "damien-dg <damien.doucet-girard@mail.mcgill.ca>"
+  ],
+  "description": "chrome extension for pitch shift",
+  "main": "popup.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#~1.4.4"
+  }
+}
