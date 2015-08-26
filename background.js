@@ -1,15 +1,15 @@
 /**
  * Created by damien on 8/24/15.
  */
-var modifiedDom;
-chrome.extension.onMessage.addListener(function (request) {
-    console.log(request);
-    modifiedDom = request.dom + "Trivial Info Appending";
+/* When the browser-action button is clicked... */
+
+
+chrome.browserAction.onClicked.addListener(function(tab) {
+    console.log('running in background');
+        chrome.tabs.sendMessage(tab.id, { text: "report_back" },
+            doStuffWithDOM);
 });
-chrome.extension.onConnect.addListener(function (port) {
-    port.onMessage.addListener(function (message) {
-        if (message == "Request Modified Value") {
-            port.postMessage(modifiedDom);
-        }
-    });
-});
+
+function doStuffWithDOM(element) {
+    alert("I received the following DOM content:\n" + element);
+}

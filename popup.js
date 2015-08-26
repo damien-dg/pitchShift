@@ -14,13 +14,13 @@ myApp.controller("mainController", ["$scope", function($scope) {
         console.log('test');
         window.alert('it works!');
     };
-    
-    var port = chrome.extension.connect({
-        name: "Sample Communication"
-    });
-    port.postMessage("Request Modified Value");
-    port.onMessage.addListener(function (msg) {
-        console.log("Modified Value recieved is  " + msg);
+
+    chrome.runtime.onMessage.addListener(function(tab) {
+        window.setTimeout(function(){
+            chrome.tabs.sendMessage(tab.id, {text: "report_back"},
+                console.log);
+        }, 100);
+
     });
 
 
@@ -35,5 +35,11 @@ myApp.controller("mainController", ["$scope", function($scope) {
 
     $scope.displayStream = function(){
         console.log(source);
-    }
+    };
+
+    $scope.printDom = function(){
+
+    };
 }]);
+
+
