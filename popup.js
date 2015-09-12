@@ -8,11 +8,13 @@ var myApp = angular.module("myApp", []);
 
 myApp.controller("mainController", ["$scope", function($scope) {
 
-    var audioCtx, myAudio, source;
     $scope.pitchChangeValue = 0;
     $scope.shiftPitch = function(){
-        console.log('test');
-        window.alert('it works!');
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {pitchChangeValue: $scope.pitchChangeValue}, function(response) {
+                console.log(response);
+            });
+        });
     };
 
     chrome.runtime.onMessage.addListener(function(tab) {
@@ -23,22 +25,11 @@ myApp.controller("mainController", ["$scope", function($scope) {
 
     });
 
-
-    $scope.initAudio = function(){
-        if(document.querySelector('audio' || 'video')) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)(); // define audio context
-            // Webkit/blink browsers need prefix, Safari won't work without window.
-            myAudio = document.querySelector('audio' || 'video');
-            source = audioCtx.createMediaElementSource(myAudio);
-        }
-    };
-
-    $scope.displayStream = function(){
-        console.log(source);
-    };
-
     $scope.printDom = function(){
-
+        chrome.extension.sendMessage({text: 'pitchValue', value: $scope.pitchChangeValue },function(response){
+            //This is where the stuff you want from the background page will be
+            console.log(response);
+        });
     };
 }]);
 

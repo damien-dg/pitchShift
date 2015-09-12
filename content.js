@@ -3,16 +3,45 @@
  */
 
 /* Listen for messages */
+
+var counter = 0;
 function test(){
-    console.debug('HELLO');
+    counter++;
+    if( source == null && audioCtx == null){
+        initAudio();
+    }else{
+        //console.log('audio already initialized');
+    }
+
 }
-window.setInterval(test, 1000);
-//chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-//    /* If the received message has the expected format... */
-//    console.log('contenting');
-//    if (msg.text && (msg.text == "report_back")) {
-//        /* Call the specified callback, passing
-//         the web-pages DOM content as argument */
-//        sendResponse(document.all[0].outerHTML);
-//    }
-//});
+window.setInterval(test, 5000);
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        console.log(request, sender);
+        sendResponse({confirm: "success!"});
+    }
+);
+
+var audioCtx;
+var myAudio;
+var source;
+var analyser;
+
+function initAudio(){
+    if(document.querySelector('video')) {
+        console.log('page has audio/video');
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)(); // define audio context
+        // Webkit/blink browsers need prefix, Safari won't work without window.
+        analyser = audioCtx.createAnalyser();
+        myAudio = document.querySelector('video');
+        console.log(myAudio);
+        source = audioCtx.createMediaElementSource(myAudio);
+        console.log("context : ", audioCtx);
+        console.log(source, "success");
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+    }else{
+        console.log('page has no audio/video');
+    }
+}

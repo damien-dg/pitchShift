@@ -9,8 +9,8 @@
 <h1>Pitch Shifter</h1>
 <ng-form id="pitchChangeForm">
     <div><span ng-bind="pitchChangeValue"></span></div>
-    <input type="range" min="-9" max="9" ng-model="pitchChangeValue" ng-change="displayStream()"/>
-    <button ng-click="printDom()">Submit</button>
+    <input type="range" min="-9" max="9" ng-model="pitchChangeValue"/>
+    <button ng-click="shiftPitch()">Submit</button>
 </ng-form>
 </body>
 </html>
